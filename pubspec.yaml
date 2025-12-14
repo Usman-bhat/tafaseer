@@ -1,0 +1,64 @@
+name: tafaseer_app
+description: "A premium Quran Tafseer app with multiple interpretations"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # Icons
+  cupertino_icons: ^1.0.8
+  
+  # Database
+  sqflite: ^2.4.1
+  sqflite_common_ffi_web: ^0.4.5+2
+  path_provider: ^2.1.5
+  path: ^1.9.0
+  
+  # State Management
+  provider: ^6.1.2
+  
+  # Navigation
+  go_router: ^14.6.2
+  
+  # UI Helpers
+  google_fonts: ^6.2.1
+  flutter_animate: ^4.5.2
+  shimmer: ^3.0.0
+  
+  # Storage
+  shared_preferences: ^2.3.4
+  
+  # URL Launcher
+  url_launcher: ^6.3.1
+  
+  # Notifications
+  flutter_local_notifications: ^18.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/databases/
+    - assets/icons/
+
+  fonts:
+    - family: Amiri
+      fonts:
+        - asset: assets/fonts/Amiri-Regular.ttf
+        - asset: assets/fonts/Amiri-Bold.ttf
+          weight: 700
+    - family: UthmanicHafs
+      fonts:
+        - asset: assets/fonts/UthmanicHafs.ttf
+

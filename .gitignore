@@ -1,0 +1,19 @@
+# Flutter/Dart
+.dart_tool/
+.packages
+build/
+*.lock
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# macOS
+.DS_Store
+*.swp
+*.swo
+
+# Large database files (download separately)
+assets/databases/*.db
+assets/databases/*.sqlite
