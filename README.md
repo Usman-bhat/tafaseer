@@ -123,7 +123,9 @@ flutter build ios --release
 
 ### 📄 License
 
-This project is for educational and personal use. All tafseer content belongs to their respective authors.
+Code is licensed under the MIT License. See the `LICENSE` file for details.
+
+Quranic texts and tafseer content included in `assets/` are the property of their respective authors/publishers. Please verify redistribution rights before reuse.
 
 ### 🤝 Contributing
 
