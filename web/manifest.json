@@ -1,13 +1,20 @@
 {
-    "name": "tafaseer_app",
-    "short_name": "tafaseer_app",
+    "name": "التفاسير - Tafaseer",
+    "short_name": "التفاسير",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#FFFFFF",
+    "theme_color": "#1B5E20",
+    "description": "تطبيق التفاسير - اقرأ وتصفح تفاسير القرآن الكريم من كبار العلماء: الطبري، ابن كثير، السعدي، القرطبي والمزيد. Quran Tafseer App with 10 authentic interpretations.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
+    "lang": "ar",
+    "dir": "rtl",
+    "categories": [
+        "education",
+        "books",
+        "lifestyle"
+    ],
     "icons": [
         {
             "src": "icons/Icon-192.png",
@@ -30,6 +37,33 @@
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "maskable"
+        }
+    ],
+    "screenshots": [],
+    "shortcuts": [
+        {
+            "name": "البحث",
+            "short_name": "بحث",
+            "description": "البحث في التفاسير",
+            "url": "/search",
+            "icons": [
+                {
+                    "src": "icons/Icon-192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "المحفوظات",
+            "short_name": "محفوظات",
+            "description": "عرض المحفوظات",
+            "url": "/bookmarks",
+            "icons": [
+                {
+                    "src": "icons/Icon-192.png",
+                    "sizes": "192x192"
+                }
+            ]
         }
     ]
 }

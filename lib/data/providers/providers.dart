@@ -246,10 +246,8 @@ class SearchProvider extends ChangeNotifier {
   }
 }
 
-/// Bookmarks provider
+/// Bookmarks provider with SharedPreferences storage
 class BookmarksProvider extends ChangeNotifier {
-  final DatabaseService _db = DatabaseService();
-  
   List<Bookmark> _bookmarks = [];
   ReadingProgress? _lastProgress;
   bool _isLoading = false;
@@ -259,19 +257,83 @@ class BookmarksProvider extends ChangeNotifier {
   ReadingProgress? get lastProgress => _lastProgress;
   bool get isLoading => _isLoading;
 
+  static const String _progressKey = 'last_reading_progress';
+  static const String _bookmarksKey = 'bookmarks_list';
+
   Future<void> loadBookmarks() async {
     _isLoading = true;
     notifyListeners();
 
     try {
-      _bookmarks = await _db.getAllBookmarks();
-      _lastProgress = await _db.getLastReadingProgress();
+      final prefs = await SharedPreferences.getInstance();
+      
+      // Load reading progress
+      final progressJson = prefs.getString(_progressKey);
+      if (progressJson != null) {
+        try {
+          final map = _decodeJson(progressJson);
+          if (map != null) {
+            _lastProgress = ReadingProgress.fromMap(map);
+          }
+        } catch (e) {
+          // Invalid data, ignore
+        }
+      }
+      
+      // Load bookmarks
+      final bookmarksJson = prefs.getStringList(_bookmarksKey) ?? [];
+      _bookmarks = bookmarksJson.map((json) {
+        final map = _decodeJson(json);
+        return map != null ? Bookmark.fromMap(map) : null;
+      }).whereType<Bookmark>().toList();
+      
     } catch (e) {
       // Handle error
     }
 
     _isLoading = false;
     notifyListeners();
+  }
+  
+  Map<String, dynamic>? _decodeJson(String json) {
+    try {
+      // Simple JSON decode without importing dart:convert
+      // Using a basic approach for SharedPreferences string storage
+      final parts = json.replaceAll('{', '').replaceAll('}', '').split(',');
+      final map = <String, dynamic>{};
+      for (final part in parts) {
+        final keyValue = part.trim().split(':');
+        if (keyValue.length >= 2) {
+          final key = keyValue[0].trim().replaceAll('"', '');
+          var value = keyValue.sublist(1).join(':').trim();
+          if (value.startsWith('"') && value.endsWith('"')) {
+            map[key] = value.substring(1, value.length - 1);
+          } else if (value == 'null') {
+            map[key] = null;
+          } else if (int.tryParse(value) != null) {
+            map[key] = int.parse(value);
+          } else if (double.tryParse(value) != null) {
+            map[key] = double.parse(value);
+          } else {
+            map[key] = value;
+          }
+        }
+      }
+      return map;
+    } catch (e) {
+      return null;
+    }
+  }
+  
+  String _encodeToJson(Map<String, dynamic> map) {
+    final parts = map.entries.map((e) {
+      final value = e.value;
+      if (value == null) return '"${e.key}":null';
+      if (value is String) return '"${e.key}":"$value"';
+      if (value is num) return '"${e.key}":$value';
+      return '"${e.key}":"$value"';
+    }).toList();
+    return '{${parts.join(',')}}';
   }
 
   Future<void> addBookmark({
@@ -282,6 +344,7 @@ class BookmarksProvider extends ChangeNotifier {
     BookmarkType type = BookmarkType.bookmark,
   }) async {
     final bookmark = Bookmark(
+      id: DateTime.now().millisecondsSinceEpoch,
       surahNumber: surahNumber,
       ayahNumber: ayahNumber,
       tafseerSourceId: tafseerSourceId,
@@ -290,17 +353,25 @@ class BookmarksProvider extends ChangeNotifier {
       type: type,
     );
 
-    await _db.saveBookmark(bookmark);
-    await loadBookmarks();
+    _bookmarks.add(bookmark);
+    await _saveBookmarks();
+    notifyListeners();
   }
 
   Future<void> removeBookmark(int id) async {
-    await _db.deleteBookmark(id);
-    await loadBookmarks();
+    _bookmarks.removeWhere((b) => b.id == id);
+    await _saveBookmarks();
+    notifyListeners();
+  }
+  
+  Future<void> _saveBookmarks() async {
+    final prefs = await SharedPreferences.getInstance();
+    final bookmarksJson = _bookmarks.map((b) => _encodeToJson(b.toMap())).toList();
+    await prefs.setStringList(_bookmarksKey, bookmarksJson);
   }
 
   Future<bool> isAyahBookmarked(int surahNumber, int ayahNumber) async {
-    return await _db.isBookmarked(surahNumber, ayahNumber);
+    return _bookmarks.any((b) => b.surahNumber == surahNumber && b.ayahNumber == ayahNumber);
   }
 
   Future<void> saveProgress({
@@ -317,8 +388,12 @@ class BookmarksProvider extends ChangeNotifier {
       scrollPosition: scrollPosition,
     );
 
-    await _db.saveReadingProgress(progress);
     _lastProgress = progress;
+    
+    final prefs = await SharedPreferences.getInstance();
+    final json = _encodeToJson(progress.toMap());
+    await prefs.setString(_progressKey, json);
+    
     notifyListeners();
   }
 }

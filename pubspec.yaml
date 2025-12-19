@@ -14,10 +14,7 @@ dependencies:
   # Icons
   cupertino_icons: ^1.0.8
   
-  # Database
-  sqflite: ^2.4.1
-  sqflite_common_ffi_web: ^0.4.5+2
-  path_provider: ^2.1.5
+  # Path utilities
   path: ^1.9.0
   
   # State Management
@@ -51,6 +48,18 @@ flutter:
   assets:
     - assets/databases/
     - assets/icons/
+    - assets/data/
+    - assets/data/ayahs/
+    - assets/data/tafseer_1/
+    - assets/data/tafseer_2/
+    - assets/data/tafseer_3/
+    - assets/data/tafseer_4/
+    - assets/data/tafseer_5/
+    - assets/data/tafseer_6/
+    - assets/data/tafseer_7/
+    - assets/data/tafseer_8/
+    - assets/data/tafseer_9/
+    - assets/data/tafseer_10/
 
   fonts:
     - family: Amiri
@@ -60,5 +69,5 @@ flutter:
           weight: 700
     - family: UthmanicHafs
       fonts:
-        - asset: assets/fonts/UthmanicHafs.ttf
+        - asset: assets/fonts/uthmani.otf
 

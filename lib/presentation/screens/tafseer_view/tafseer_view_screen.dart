@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../../data/models/models.dart';
 import '../../../data/providers/providers.dart';
+import '../../../data/services/analytics_service.dart';
 import '../../theme/app_theme.dart';
 
 class TafseerViewScreen extends StatefulWidget {
@@ -23,6 +24,7 @@ class TafseerViewScreen extends StatefulWidget {
 
 class _TafseerViewScreenState extends State<TafseerViewScreen> {
   final ScrollController _scrollController = ScrollController();
+  final AnalyticsService _analytics = AnalyticsService();
   int _currentAyahIndex = 0;
   bool _showTafseer = true;
 
@@ -36,6 +38,11 @@ class _TafseerViewScreenState extends State<TafseerViewScreen> {
 
   void _loadData() async {
     final tafseerProvider = context.read<TafseerProvider>();
+    final appState = context.read<AppStateProvider>();
+    
+    // Sync selected tafseer source from app state
+    tafseerProvider.setSelectedSource(appState.selectedTafseerSourceId);
+    
     await tafseerProvider.loadAyahsForSurah(widget.surahId);
     
     if (widget.initialAyah != null && tafseerProvider.ayahs.isNotEmpty) {
@@ -120,6 +127,12 @@ class _TafseerViewScreenState extends State<TafseerViewScreen> {
       tafseerSourceId: tafseerProvider.selectedSourceId,
     );
     
+    // Log analytics event
+    _analytics.logBookmarkAdded(
+      surahId: widget.surahId,
+      ayahNumber: ayah.ayahNumber,
+    );
+    
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -147,6 +160,14 @@ ${tafseer?.text ?? ''}
     ''';
     
     Clipboard.setData(ClipboardData(text: text));
+    
+    // Log analytics event
+    _analytics.logShare(
+      surahId: widget.surahId,
+      ayahNumber: ayah.ayahNumber,
+      contentType: 'tafseer',
+    );
+    
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: const Text('Copied for sharing'),
@@ -355,6 +376,48 @@ ${tafseer?.text ?? ''}
                           
                           const SizedBox(height: AppSpacing.lg),
                           
+                          // Tafseer source chips
+                          SizedBox(
+                            height: 40,
+                            child: ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: tafseerProvider.availableSources.length,
+                              separatorBuilder: (_, __) => const SizedBox(width: 8),
+                              itemBuilder: (context, index) {
+                                final source = tafseerProvider.availableSources[index];
+                                final isSelected = source.id == tafseerProvider.selectedSourceId;
+                                return ChoiceChip(
+                                  label: Text(
+                                    source.nameArabic,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                                      color: isSelected ? Colors.white : (isDark ? AppColors.darkText : AppColors.text),
+                                    ),
+                                  ),
+                                  selected: isSelected,
+                                  selectedColor: AppColors.primary,
+                                  backgroundColor: isDark ? AppColors.darkSurfaceVariant : AppColors.surfaceVariant,
+                                  side: BorderSide.none,
+                                  onSelected: (_) {
+                                    final previousSourceId = tafseerProvider.selectedSourceId;
+                                    tafseerProvider.setSelectedSource(source.id);
+                                    // Also update app state so it persists
+                                    context.read<AppStateProvider>().setSelectedTafseerSource(source.id);
+                                    // Log analytics event
+                                    _analytics.logTafseerChipTapped(
+                                      fromSourceId: previousSourceId,
+                                      toSourceId: source.id,
+                                      toSourceName: source.nameArabic,
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                          
+                          const SizedBox(height: AppSpacing.lg),
+                          
                           // Toggle tafseer
                           Row(
                             children: [
@@ -430,7 +493,10 @@ ${tafseer?.text ?? ''}
       // Navigation bar
       bottomNavigationBar: tafseerProvider.ayahs.isNotEmpty
           ? Container(
-              padding: const EdgeInsets.all(AppSpacing.md),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.lg,
+                vertical: AppSpacing.md,
+              ),
               decoration: BoxDecoration(
                 color: isDark ? AppColors.darkSurface : AppColors.surface,
                 boxShadow: [
@@ -443,54 +509,54 @@ ${tafseer?.text ?? ''}
               ),
               child: SafeArea(
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Previous button
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: _currentAyahIndex > 0 ? _goToPreviousAyah : null,
-                        icon: const Icon(Icons.chevron_left_rounded),
-                        label: const Text('Previous'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: isDark ? AppColors.darkSurfaceVariant : AppColors.surfaceVariant,
-                          foregroundColor: isDark ? AppColors.darkText : AppColors.text,
-                        ),
+                    // Next button (LEFT side for RTL - going forward in Quran)
+                    IconButton.filled(
+                      onPressed: _currentAyahIndex < tafseerProvider.ayahs.length - 1
+                          ? _goToNextAyah
+                          : null,
+                      icon: const Icon(Icons.chevron_left_rounded, size: 28),
+                      style: IconButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: Colors.white,
+                        disabledBackgroundColor: isDark 
+                            ? AppColors.darkSurfaceVariant 
+                            : AppColors.surfaceVariant,
+                        disabledForegroundColor: AppColors.textSecondary,
+                        padding: const EdgeInsets.all(12),
                       ),
                     ),
                     
-                    const SizedBox(width: AppSpacing.md),
-                    
-                    // Ayah selector
+                    // Ayah counter
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       decoration: BoxDecoration(
                         color: AppColors.primary.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(25),
                       ),
                       child: Text(
                         '${_currentAyahIndex + 1} / ${tafseerProvider.ayahs.length}',
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
+                          fontSize: 16,
                           color: AppColors.primary,
                         ),
                       ),
                     ),
                     
-                    const SizedBox(width: AppSpacing.md),
-                    
-                    // Next button
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: _currentAyahIndex < tafseerProvider.ayahs.length - 1
-                            ? _goToNextAyah
-                            : null,
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('Next'),
-                            SizedBox(width: 4),
-                            Icon(Icons.chevron_right_rounded),
-                          ],
-                        ),
+                    // Previous button (RIGHT side for RTL - going back in Quran)
+                    IconButton.filled(
+                      onPressed: _currentAyahIndex > 0 ? _goToPreviousAyah : null,
+                      icon: const Icon(Icons.chevron_right_rounded, size: 28),
+                      style: IconButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: Colors.white,
+                        disabledBackgroundColor: isDark 
+                            ? AppColors.darkSurfaceVariant 
+                            : AppColors.surfaceVariant,
+                        disabledForegroundColor: AppColors.textSecondary,
+                        padding: const EdgeInsets.all(12),
                       ),
                     ),
                   ],

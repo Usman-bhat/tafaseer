@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "55158109852",
+    "project_id": "tafaseer",
+    "storage_bucket": "tafaseer.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:55158109852:android:2d467a1ad82b8b7a6c1f59",
+        "android_client_info": {
+          "package_name": "com.tafaseer.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDl97CF0Apsqmv81auC-yPE9Zfr95cHqW0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

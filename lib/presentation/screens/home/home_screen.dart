@@ -324,7 +324,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(width: AppSpacing.md),
                         Expanded(
                           child: _QuickActionCard(
-                            imagePath: 'assets/icons/quran_bookmark.png',
+                            icon: Icons.bookmark_rounded,
                             title: context.read<AppStateProvider>().isArabic ? 'المحفوظات' : 'Bookmarks',
                             subtitle: context.read<AppStateProvider>().isArabic 
                                 ? '${bookmarks.bookmarks.length} محفوظ' 
@@ -366,7 +366,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisCount: 2,
                   mainAxisSpacing: 12,
                   crossAxisSpacing: 12,
-                  childAspectRatio: 2.5,
+                  childAspectRatio: 2.2,
                 ),
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
@@ -425,10 +425,9 @@ class _ContinueReadingCard extends StatelessWidget {
                   color: Colors.white.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Image.asset(
-                  'assets/icons/book_reading.png',
-                  width: 24,
-                  height: 24,
+                child: const Icon(
+                  Icons.auto_stories_rounded,
+                  size: 24,
                   color: Colors.white,
                 ),
               ),

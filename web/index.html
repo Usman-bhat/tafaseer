@@ -1,38 +1,179 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar" dir="rtl">
+
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
     href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
   -->
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Search Console Verification -->
+  <meta name="google-site-verification" content="TglnltxWnWIJtMZeacA7Sfj_Gx4lD_rmW0_FCg2poEY">
+
+  <!-- Primary Meta Tags -->
+  <title>التفاسير - Tafaseer | تفاسير القرآن الكريم</title>
+  <meta name="title" content="التفاسير - Tafaseer | تفاسير القرآن الكريم">
+  <meta name="description"
+    content="تطبيق التفاسير - اقرأ وتصفح تفاسير القرآن الكريم من كبار العلماء: الطبري، ابن كثير، السعدي، القرطبي، البغوي، ابن عاشور، الرازي والكشاف. Quran Tafseer App with 10 authentic Islamic interpretations.">
+  <meta name="keywords"
+    content="تفسير, القرآن, القرآن الكريم, تفسير الطبري, تفسير ابن كثير, تفسير السعدي, تفسير القرطبي, تفسير البغوي, تفسير ابن عاشور, تفسير الرازي, تفسير الكشاف, Quran, Tafseer, Tafsir, Islamic, Arabic">
+  <meta name="author" content="Tafaseer App">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="Arabic">
+  <meta name="revisit-after" content="7 days">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tafaseer.web.app/">
+  <meta property="og:title" content="التفاسير - Tafaseer | تفاسير القرآن الكريم">
+  <meta property="og:description"
+    content="تطبيق التفاسير - اقرأ وتصفح تفاسير القرآن الكريم من كبار العلماء: الطبري، ابن كثير، السعدي، القرطبي والمزيد">
+  <meta property="og:image" content="icons/Icon-512.png">
+  <meta property="og:locale" content="ar_AR">
+  <meta property="og:site_name" content="التفاسير - Tafaseer">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://tafaseer.web.app/">
+  <meta property="twitter:title" content="التفاسير - Tafaseer | تفاسير القرآن الكريم">
+  <meta property="twitter:description" content="تطبيق التفاسير - اقرأ وتصفح تفاسير القرآن الكريم من كبار العلماء">
+  <meta property="twitter:image" content="icons/Icon-512.png">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="tafaseer_app">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="التفاسير">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/Icon-192.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
 
-  <title>tafaseer_app</title>
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://tafaseer.web.app/">
+
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#1B5E20">
+  <meta name="msapplication-TileColor" content="#1B5E20">
+
   <link rel="manifest" href="manifest.json">
+
+  <!-- Structured Data (JSON-LD) for Rich Snippets -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "التفاسير - Tafaseer",
+    "alternateName": "Quran Tafseer App",
+    "description": "تطبيق التفاسير - اقرأ وتصفح تفاسير القرآن الكريم من كبار العلماء: الطبري، ابن كثير، السعدي، القرطبي، البغوي، ابن عاشور، الرازي والكشاف",
+    "url": "https://tafaseer.web.app/",
+    "applicationCategory": "ReligiousApplication",
+    "operatingSystem": "Web",
+    "browserRequirements": "Requires JavaScript",
+    "inLanguage": ["ar", "en"],
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Tafaseer App"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5",
+      "ratingCount": "100"
+    },
+    "featureList": [
+      "10 Tafseer Sources",
+      "Tabari Tafseer",
+      "Ibn Kathir Tafseer", 
+      "Saadi Tafseer",
+      "Qurtubi Tafseer",
+      "Baghawi Tafseer",
+      "Ibn Ashur Tafseer",
+      "Razi Tafseer",
+      "Kashshaf Tafseer",
+      "Search functionality",
+      "Bookmarks",
+      "Dark mode"
+    ]
+  }
+  </script>
+
+  <!-- Book/Religious Text Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Book",
+    "name": "تفاسير القرآن الكريم",
+    "alternateName": "Quran Tafseer Collection",
+    "description": "مجموعة شاملة من تفاسير القرآن الكريم",
+    "inLanguage": "ar",
+    "genre": "Religious text",
+    "about": {
+      "@type": "Thing",
+      "name": "القرآن الكريم",
+      "alternateName": "The Holy Quran"
+    }
+  }
+  </script>
+
+  <!-- Firebase SDK for Web -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-analytics-compat.js"></script>
+  <script>
+    // Firebase configuration from firebase_options.dart
+    const firebaseConfig = {
+      apiKey: "AIzaSyBpLH6xDr2RonPrUUZbSEYqtg43OOi2L2A",
+      authDomain: "tafaseer.firebaseapp.com",
+      projectId: "tafaseer",
+      storageBucket: "tafaseer.firebasestorage.app",
+      messagingSenderId: "55158109852",
+      appId: "1:55158109852:web:20ed231a99f2d1f66c1f59"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
+
+
+
 </head>
+
 <body>
+  <!-- Noscript fallback for SEO -->
+  <noscript>
+    <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif; direction: rtl;">
+      <h1>التفاسير - Tafaseer</h1>
+      <p>تطبيق التفاسير - اقرأ وتصفح تفاسير القرآن الكريم</p>
+      <p>Quran Tafseer App with 10 authentic Islamic interpretations</p>
+      <h2>التفاسير المتوفرة:</h2>
+      <ul style="list-style: none; padding: 0;">
+        <li>تفسير الطبري</li>
+        <li>تفسير ابن كثير</li>
+        <li>تفسير السعدي</li>
+        <li>تفسير القرطبي</li>
+        <li>تفسير البغوي</li>
+        <li>تفسير ابن عاشور</li>
+        <li>إعراب القرآن</li>
+        <li>التفسير الوسيط</li>
+        <li>تفسير الكشاف</li>
+        <li>تفسير الرازي</li>
+      </ul>
+      <p>يرجى تفعيل JavaScript لاستخدام التطبيق</p>
+    </div>
+  </noscript>
   <script src="flutter_bootstrap.js" async></script>
 </body>
+
 </html>

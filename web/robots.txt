@@ -1,0 +1,21 @@
+# Robots.txt for Tafaseer App
+# https://tafaseer.web.app/
+
+User-agent: *
+Allow: /
+
+# Allow all search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Sitemap location
+Sitemap: https://tafaseer.web.app/sitemap.xml
+
+# Crawl delay (optional, be gentle on the server)
+Crawl-delay: 1

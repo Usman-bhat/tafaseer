@@ -20,3 +20,8 @@
 
 # Prevent stripping of Arabic fonts
 -keep class android.graphics.Typeface { *; }
+
+# Missing Play Core deferred components - dontwarn since we don't use them
+-dontwarn com.google.android.play.core.splitcompat.SplitCompatApplication
+-dontwarn com.google.android.play.core.splitinstall.**
+-dontwarn com.google.android.play.core.tasks.**

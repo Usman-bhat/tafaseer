@@ -1,0 +1,93 @@
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "tafaseer",
+                    "appId": "1:55158109852:android:2d467a1ad82b8b7a6c1f59",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "ios": {
+                "default": {
+                    "projectId": "tafaseer",
+                    "appId": "1:55158109852:ios:7cfcf2989571a7e86c1f59",
+                    "uploadDebugSymbols": false,
+                    "fileOutput": "ios/Runner/GoogleService-Info.plist"
+                }
+            },
+            "macos": {
+                "default": {
+                    "projectId": "tafaseer",
+                    "appId": "1:55158109852:ios:7cfcf2989571a7e86c1f59",
+                    "uploadDebugSymbols": false,
+                    "fileOutput": "macos/Runner/GoogleService-Info.plist"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "tafaseer",
+                    "configurations": {
+                        "android": "1:55158109852:android:2d467a1ad82b8b7a6c1f59",
+                        "ios": "1:55158109852:ios:7cfcf2989571a7e86c1f59",
+                        "macos": "1:55158109852:ios:7cfcf2989571a7e86c1f59",
+                        "web": "1:55158109852:web:20ed231a99f2d1f66c1f59"
+                    }
+                }
+            }
+        }
+    },
+    "hosting": {
+        "public": "build/web",
+        "ignore": [
+            "firebase.json",
+            "**/.*",
+            "**/node_modules/**"
+        ],
+        "cleanUrls": true,
+        "trailingSlash": false,
+        "rewrites": [
+            {
+                "source": "/surah/**/ayah/**",
+                "destination": "/index.html"
+            },
+            {
+                "source": "/surah/**",
+                "destination": "/index.html"
+            },
+            {
+                "source": "**",
+                "destination": "/index.html"
+            }
+        ],
+        "headers": [
+            {
+                "source": "sitemap.xml",
+                "headers": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/xml"
+                    }
+                ]
+            },
+            {
+                "source": "robots.txt",
+                "headers": [
+                    {
+                        "key": "Content-Type",
+                        "value": "text/plain"
+                    }
+                ]
+            },
+            {
+                "source": "**/*.@(js|css)",
+                "headers": [
+                    {
+                        "key": "Cache-Control",
+                        "value": "max-age=31536000"
+                    }
+                ]
+            }
+        ]
+    }
+}
